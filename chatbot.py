@@ -1,12 +1,39 @@
 import streamlit as st
 
-st.header("Welcome to the Chatbot Application")
+st.title("AI ChatBot")
 
-st.write(["ashirvad", "shukla", "Btech CS"])
+#creating chat
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-st.text("text here normal ")
+#Display previous messages
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
 
-#st.button("Click me")
+#Get new messages
+user_message = st.chat_input("Type your message here...")
 
-if st.button("Click me"):
-    st.write("Button Clicked")
+if user_message:
+    #Add user message to history
+    st.session_state.messages.append({
+        "role" : "user",
+        "content" : user_message
+    })
+
+    #Display user message
+    with st.chat_message("user"):
+        st.write(user_message)
+
+        #Temporary AI response
+        ai_response = "Hello! I recieved your message"
+
+        #Add AI response to history
+        st.session_state.messages.append({
+            "role" : "assistant",
+            "content" : ai_response
+        })
+
+        #Display AI response
+        with st.chat_message("assistant"):
+            st.write(ai_response)
