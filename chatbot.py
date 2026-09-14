@@ -1,4 +1,5 @@
 import streamlit as st
+from ollama import chat
 
 st.title("AI ChatBot")
 
@@ -26,7 +27,11 @@ if user_message:
         st.write(user_message)
 
         #Temporary AI response
-        ai_response = "Hello! I recieved your message"
+        response = chat(
+            model = "llama3.2:1b",
+            messages = st.session_state.messages
+        )
+        ai_response = response.message.content
 
         #Add AI response to history
         st.session_state.messages.append({
